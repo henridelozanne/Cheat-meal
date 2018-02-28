@@ -1,0 +1,21 @@
+{
+  "name": "tweeter",
+  "version": "1.0.0",
+  "description": "vue + express app",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "cd server && npm install",
+    "start": "cd server && node bin/www"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ta-web-paris/tweeter.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ta-web-paris/tweeter/issues"
+  },
+  "homepage": "https://github.com/ta-web-paris/tweeter#readme"
+}
