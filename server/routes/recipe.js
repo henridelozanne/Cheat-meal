@@ -8,11 +8,31 @@ const config = require("../config");
 router.post("/recipe", function(req, res, next) {
   const recipe = new Recipe({
     title: req.body.title,
-    cost: req.body.cost
+    type: req.body.type,
+    difficulty: req.body.difficulty,
+    budget: req.body.budget,
+    steps: req.body.steps,
+
+    advisedDrink: req.body.advisedDrink
+    // creator = req.session.currentUser.name
   });
   recipe.save().then(savedRecipe => {
     res.json(savedRecipe);
   });
+
+  // if (
+  //   recipe.title === "" ||
+  //   recipe.type === "" ||
+  //   recipe.difficulty === "" ||
+  //   recipe.budget === "" ||
+  //   recipe.step1 === "" ||
+  //   recipe.advisedDrink === ""
+  // ) {
+  //   res.json("recipe", {
+  //     errorMessage: "Please fill in all the fields"
+  //   });
+  //   return;
+  // }
 });
 
 router.get("/recipe", function(req, res, next) {
@@ -51,7 +71,12 @@ router.post("/recipe/:id", function(req, res, next) {
 
   const update = {
     title: req.body.title,
-    cost: req.body.cost
+    type: req.body.type,
+    difficulty: req.body.difficulty,
+    budget: req.body.budget,
+    steps: req.body.steps,
+    advisedDrink: req.body.advisedDrink
+    // creator: req.session.currentUser.name
   };
 
   Recipe.findByIdAndUpdate(recipeId, update, (err, recipe) => {
