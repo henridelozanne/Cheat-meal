@@ -4,20 +4,32 @@ const Recipe = require("../models/recipe");
 const jwt = require("jwt-simple");
 const passport = require("passport");
 const config = require("../config");
+const cloudinary = require("cloudinary");
+const cloudinaryStorage = require("multer-storage-cloudinary");
+const multer = require("multer");
 
-router.post("/recipe", function(req, res, next) {
+const storage = cloudinaryStorage({
+  cloudinary,
+  folder: "my-images",
+  allowedFormats: ["jpg", "png", "gif"]
+});
+
+const parser = multer({ storage });
+
+router.post("/recipe", parser.single("picture"), function(req, res, next) {
+  const { file } = req;
   const recipe = new Recipe({
     title: req.body.title,
     type: req.body.type,
     difficulty: req.body.difficulty,
     budget: req.body.budget,
     steps: req.body.steps,
-
+    picture: file.secure_url,
     advisedDrink: req.body.advisedDrink
     // creator = req.session.currentUser.name
   });
   recipe.save().then(savedRecipe => {
-    res.json(savedRecipe);
+    res.json({ savedRecipe, picture: user.picture });
   });
 
   // if (

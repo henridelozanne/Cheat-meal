@@ -47,7 +47,7 @@
     <br>
 
      <br>
-    <label v-for="(step, i) in steps">Step {{ i + 1}}:
+    <label v-for="(step, i) in steps" :key="i">Step {{ i + 1}}:
       <input v-model="steps[i]" type="text">
       <br>
     </label>
@@ -59,6 +59,20 @@
 
     <label for="advisedDrink">Advised drink:</label>
     <input v-model="advisedDrink" type="text" name="advisedDrink">
+
+    <b-field>
+        <b-upload v-model="files">
+            <a class="button is-primary">
+                <b-icon icon="upload"></b-icon>
+                <span>Click to upload</span>
+            </a>
+        </b-upload>
+        <div v-if="files && files.length">
+            <span class="file-name">
+                {{ files[0].name }}
+            </span>
+        </div>
+      </b-field>
 
     <br><br>
 
@@ -82,6 +96,7 @@ export default {
       budget: "",
       steps: ["", ""],
       advisedDrink: "",
+      files: [],
       error: null,
       count: 2
     };
@@ -96,7 +111,8 @@ export default {
           difficulty: this.difficulty,
           budget: this.budget,
           steps: this.steps,
-          advisedDrink: this.advisedDrink
+          advisedDrink: this.advisedDrink,
+          picture: this.files[0]
         })
         .then(() => {
           this.$router.push("/");
@@ -107,6 +123,21 @@ export default {
     },
     addStep() {
       this.steps.push("");
+    },
+    uploadPicture() {
+      const formData = new FormData();
+      formData.append("picture", this.picture);
+      // you can add more information to the formdata
+      formData.append("myMessage", "Hello");
+      axios
+        .post("http://localhost:3000/api/images/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+        .then(response => {
+          console.log(response.data);
+        });
     }
   }
 };

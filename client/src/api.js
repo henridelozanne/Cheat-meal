@@ -56,8 +56,16 @@ export default {
     return false;
   },
   submitRecipe(recipeInfo) {
+    const formData = new FormData();
+    Object.keys(recipeInfo).forEach(key =>
+      formData.append(key, recipeInfo[key])
+    );
     return service
-      .post("/recipe", recipeInfo)
+      .post("/recipe", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      })
       .then(res => res.data)
       .catch(errHandler);
   },
