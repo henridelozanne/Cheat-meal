@@ -7,9 +7,16 @@ const recipeSchema = new Schema({
   difficulty: String,
   budget: String,
   steps: Array,
-  advisedDrink: String,
-  creator: String,
-  picture: String
+  recommendedDrink: String,
+  // creator: String,
+  picture: String,
+  ingredients: [
+    {
+      name: String,
+      quantity: Number,
+      unit: String
+    }
+  ]
 });
 
 module.exports = mongoose.model("Recipe", recipeSchema);

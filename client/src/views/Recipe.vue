@@ -37,30 +37,70 @@
 
     <br><br>
 
-     <!-- <button id="more_fields" @click="addStep" value="Add More">Add another step</button> -->
-     <a id="more_fields" @click="addStep" value="Add More">Add another step</a>
+   <div>
+    <input disabled type="checkbox" id="veggie" name="veggie" value="veggie">
+    <label for="veggie">Veggie meal</label>
+  </div>
+
+  <br>
+
+    <div id="ingredients-wrapper">
+    
+    <br>
+        
+    <span>Ingredients needed:</span>
+
+    <br>
+
+    <label v-for="(ingredient, i) in ingredients" :key="i">Ingredient {{ i + 1}}:
+      <input v-model="ingredients[i].name" type="text">
+      <span>Quantity:</span>
+      <input v-model="ingredients[i].quantity" type="text">
+      <select name="unit" form="unit" v-model="ingredients[i].unit">
+      <option value="grams">grams</option>
+      <option value="centiliters">centiliters</option>
+      <option value="units">units</option>
+    </select>
+
+    <br>
+    
+    </label>
+
+    </div>
+
+   <a id="more_fields2" @click="addIngredient" value="Add More">Add another ingredient</a>
+
+   
 
     <div id="step-wrapper">
+    
+    <br>
     
     <span>Preparation:</span>
 
     <br>
-
-     <br>
+    
     <label v-for="(step, i) in steps" :key="i">Step {{ i + 1}}:
       <input v-model="steps[i]" type="text">
       <br>
+    
     </label>
 
 
     </div>
 
+     <a id="more_fields" @click="addStep" value="Add More">Add another step</a>
     <br><br>
 
-    <label for="advisedDrink">Advised drink:</label>
-    <input v-model="advisedDrink" type="text" name="advisedDrink">
 
+    <label for="recommendedDrink">Recommended drink:</label>
+    <input v-model="recommendedDrink" type="text" name="recommendedDrink">
+
+    <br><br>
+
+      <span>Upload a picture of your meal:</span>
     <b-field>
+      
         <b-upload v-model="files">
             <a class="button is-primary">
                 <b-icon icon="upload"></b-icon>
@@ -91,19 +131,25 @@ export default {
     return {
       title: "",
       type: "",
-      advisedDrink: "",
+      recommendedDrink: "",
       difficulty: "",
       budget: "",
-      steps: ["", ""],
-      advisedDrink: "",
+      steps: [""],
+      ingredients: [{ name: "", quantity: "", unit: "" }],
       files: [],
       error: null,
       count: 2
+      // creator: api.userData
     };
+  },
+  created() {
+    // this.addIngredient();
+    this.addStep();
   },
   methods: {
     submitRecipe() {
       this.error = null;
+      console.log(this.ingredients);
       api
         .submitRecipe({
           title: this.title,
@@ -111,11 +157,13 @@ export default {
           difficulty: this.difficulty,
           budget: this.budget,
           steps: this.steps,
-          advisedDrink: this.advisedDrink,
+          ingredients: this.ingredients,
+          recommendedDrink: this.recommendedDrink,
           picture: this.files[0]
+          // creator: this.creator
         })
         .then(() => {
-          this.$router.push("/");
+          this.$router.push("/signup");
         })
         .catch(err => {
           this.error = err;
@@ -123,6 +171,9 @@ export default {
     },
     addStep() {
       this.steps.push("");
+    },
+    addIngredient() {
+      this.ingredients.push({ name: "", quantity: "", unit: "" });
     },
     uploadPicture() {
       const formData = new FormData();

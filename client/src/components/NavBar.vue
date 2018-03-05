@@ -46,7 +46,7 @@
           </p>
         </div>
         <div class="field is-grouped" v-else>
-          <p class="control">
+          <p class="control navbar-item">
             Hi {{ $root.user.name }}
           </p>
           <p class="control">
@@ -65,12 +65,12 @@
 </template>
 
 <script>
-import api from '../api';
+import api from "../api";
 
 export default {
   data() {
     return {
-      isActive: false,
+      isActive: false
     };
   },
 
@@ -78,8 +78,8 @@ export default {
     logout() {
       api.logout();
       this.$root.user = null;
-      this.$router.push('/login');
-    },
-  },
+      this.$router.push("/login");
+    }
+  }
 };
 </script>

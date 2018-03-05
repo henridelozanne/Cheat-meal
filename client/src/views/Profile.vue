@@ -1,23 +1,15 @@
 <template>
   <p class="content">
-    <pre>{{ secret }}</pre>
+
+    Your username is {{ $root.user.username }} <br>
+    Your name is {{ $root.user.name }} <br>
+    Your hash is {{ $root.user.hash }} <br>
+    Your salt is {{ $root.user.salt }}
   </p>
 </template>
 
 <script>
-import api from '../api';
+import api from "../api";
 
-export default {
-  data() {
-    return {
-      secret: null,
-    };
-  },
-
-  created() {
-    api.getSecret().then(secret => {
-      this.secret = secret;
-    });
-  },
-};
+export default {};
 </script>

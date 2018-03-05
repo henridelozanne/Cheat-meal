@@ -32,10 +32,10 @@ export default new Router({
     },
     {
       path: "/profile",
-      component: Profile,
-      meta: {
-        requiresAuth: true
-      }
+      component: Profile
+      // meta: {
+      //   requiresAuth: true
+      // }
     },
     {
       path: "/recipe",

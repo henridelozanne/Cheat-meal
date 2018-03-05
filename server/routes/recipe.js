@@ -18,19 +18,30 @@ const parser = multer({ storage });
 
 router.post("/recipe", parser.single("picture"), function(req, res, next) {
   const { file } = req;
+  console.log(
+    "--------------------------------------------------------------------"
+  );
+  console.log(req.body.ingredients);
   const recipe = new Recipe({
     title: req.body.title,
     type: req.body.type,
     difficulty: req.body.difficulty,
     budget: req.body.budget,
     steps: req.body.steps,
+    ingredients: req.body.ingredients,
     picture: file.secure_url,
-    advisedDrink: req.body.advisedDrink
-    // creator = req.session.currentUser.name
+    recommendedDrink: req.body.recommendedDrink
+    // creator: root.user.name
   });
-  recipe.save().then(savedRecipe => {
-    res.json({ savedRecipe, picture: user.picture });
-  });
+  recipe
+    .save()
+    .then(savedRecipe => {
+      res.json({ savedRecipe, picture: user.picture });
+    })
+    .catch(err => {
+      console.log(err);
+      next(err);
+    });
 
   // if (
   //   recipe.title === "" ||
@@ -38,7 +49,7 @@ router.post("/recipe", parser.single("picture"), function(req, res, next) {
   //   recipe.difficulty === "" ||
   //   recipe.budget === "" ||
   //   recipe.step1 === "" ||
-  //   recipe.advisedDrink === ""
+  //   recipe.recommendedDrink === ""
   // ) {
   //   res.json("recipe", {
   //     errorMessage: "Please fill in all the fields"
@@ -48,11 +59,11 @@ router.post("/recipe", parser.single("picture"), function(req, res, next) {
 });
 
 router.get("/recipe", function(req, res, next) {
-  Recipe.find({}, (err, recipes) => {
+  Recipe.find({}, (err, recipe) => {
     if (err) {
       res.json(err);
     }
-    res.json(recipes);
+    res.json(recipe);
   });
 });
 
@@ -87,7 +98,7 @@ router.post("/recipe/:id", function(req, res, next) {
     difficulty: req.body.difficulty,
     budget: req.body.budget,
     steps: req.body.steps,
-    advisedDrink: req.body.advisedDrink
+    recommendedDrink: req.body.recommendedDrink
     // creator: req.session.currentUser.name
   };
 
