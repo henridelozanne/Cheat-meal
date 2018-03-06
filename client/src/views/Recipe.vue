@@ -39,21 +39,25 @@
 
    <div>
     <input disabled type="checkbox" id="veggie" name="veggie" value="veggie">
-    <label for="veggie">Veggie meal</label>
+    <label for="veggie" class="tooltip">Veggie meal <span class="tooltiptext">Wrong website, sorry</span></label>
   </div>
 
-  <br>
 
+      
     <div id="ingredients-wrapper">
     
     <br>
+    
         
     <span>Ingredients needed:</span>
 
     <br>
 
-    <label v-for="(ingredient, i) in ingredients" :key="i">Ingredient {{ i + 1}}:
-      <input v-model="ingredients[i].name" type="text">
+    <template v-for="(ingredient, i) in ingredients">Ingredient {{ i + 1}}:
+      <!-- <input v-model="ingredients[i].name" type="text"> -->
+      <IngredientAutoComplete :label="`Ingredient ${i + 1}`" v-model="ingredients[i].name" :key="i"/>
+      <!-- <input v-model="ingredients[i].name" type="text" @change="myIngredientsAutoComplete.getResults"> -->
+
       <span>Quantity:</span>
       <input v-model="ingredients[i].quantity" type="text">
       <select name="unit" form="unit" v-model="ingredients[i].unit">
@@ -64,7 +68,7 @@
 
     <br>
     
-    </label>
+    </template>
 
     </div>
 
@@ -120,10 +124,14 @@
 
     </form>
 
+    <div id="totalCalories"> Total calories: 0</div>
+
   </div>
+  
 </template>
 
 <script>
+import IngredientAutoComplete from "../components/IngredientAutocomplete";
 import api from "../api";
 
 export default {
@@ -190,6 +198,38 @@ export default {
           console.log(response.data);
         });
     }
-  }
+  },
+  components: { IngredientAutoComplete }
 };
 </script>
+
+<style>
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+#totalCalories {
+  border: solid;
+  width: 15%;
+  height: 50px;
+}
+</style>

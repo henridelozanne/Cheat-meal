@@ -16,6 +16,10 @@ const storage = cloudinaryStorage({
 
 const parser = multer({ storage });
 
+// const caloriesApi = axios.create({
+//   baseURL: "https://api.nal.usda.gov/ndb/reports/"
+// });
+
 router.post("/recipe", parser.single("picture"), function(req, res, next) {
   const { file } = req;
   console.log(
@@ -109,5 +113,17 @@ router.post("/recipe/:id", function(req, res, next) {
     res.json(update);
   });
 });
+
+// caloriesApi
+//   .get(
+//     "?ndbno=01009&type=b&format=json&api_key=RsUolzVV2ccHjQFg04PQVHtwOQkZjWVv65Yp9fdu"
+//   )
+//   .then(res => {
+//     const calorieValue = res.report.food.nutrients[4].value;
+
+//     const calories = document.createElement("calories");
+//     calories.innerText = calorieValue;
+//   })
+//   .catch(console.error);
 
 module.exports = router;

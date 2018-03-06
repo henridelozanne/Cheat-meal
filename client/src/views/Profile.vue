@@ -6,6 +6,8 @@
     Your hash is {{ $root.user.hash }} <br>
     Your salt is {{ $root.user.salt }}
   </p>
+
+  
 </template>
 
 <script>

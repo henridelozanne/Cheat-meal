@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/ta-web-paris/tweeter/issues"
   },
-  "homepage": "https://github.com/ta-web-paris/tweeter#readme"
+  "homepage": "https://github.com/ta-web-paris/tweeter#readme",
+  "dependencies": {
+    "axios": "^0.18.0"
+  }
 }

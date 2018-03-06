@@ -9,6 +9,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "buefy": "^0.6.3",
+    "nutrient-database": "^1.1.8",
     "vue": "^2.5.13",
     "vue-router": "^3.0.1"
   },
